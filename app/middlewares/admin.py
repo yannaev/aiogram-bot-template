@@ -15,7 +15,7 @@ class AdminMiddleware(BaseMiddleware):
     ) -> Any:
         user: User | None = data.get("event_from_user")
 
-        if user is None or user.id not in settings.ADMIN_IDS:
+        if user is None or user.id not in settings.admin_ids:
             return None
 
         return await handler(event, data)
