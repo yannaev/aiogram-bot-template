@@ -20,3 +20,14 @@ Format all files in the current directory
 uv run ruff format
 ```
 
+## Alembic
+
+```
+uv run alembic init -t async alembic
+```
+```
+uv run alembic revision --autogenerate -m "Init"
+```
+```
+uv run alembic upgrade head
+```
