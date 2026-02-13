@@ -6,8 +6,9 @@ from app.config import settings
 from app.middlewares.admin import AdminMiddleware
 
 admin_router = Router()
-admin_router.message.middleware(AdminMiddleware(admin_ids=settings.admin_ids))
-admin_router.callback_query.middleware(AdminMiddleware(admin_ids=settings.admin_ids))
+admin_middleware = AdminMiddleware(admin_ids=settings.admin_ids)
+admin_router.message.middleware(admin_middleware)
+admin_router.callback_query.middleware(admin_middleware)
 
 
 @admin_router.message(Command("admin"))
