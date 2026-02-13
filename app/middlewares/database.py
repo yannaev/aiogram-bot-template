@@ -1,5 +1,5 @@
 from aiogram import BaseMiddleware
-from typing import Callable, Awaitable, Dict, Any
+from typing import Callable, Awaitable, Any
 from aiogram.types import TelegramObject
 
 from app.database.manager import DBManager
@@ -11,9 +11,9 @@ class DBMiddleware(BaseMiddleware):
 
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: Dict[str, Any],
+        data: dict[str, Any],
     ) -> Any:
         async with DBManager(session_factory=self.session_factory) as db:
             data["db"] = db
