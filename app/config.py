@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     bot_token: str
-    bot_url:str
+    bot_url: str
     admin_ids: list[int]
     channel_id: str
     channel_url: str

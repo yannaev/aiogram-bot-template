@@ -19,8 +19,12 @@ async def main() -> None:
 
     dp.update.middleware(DBMiddleware(session_factory=async_session_maker))
 
-    dp.message.middleware(SubscriptionMiddleware(channel_id=settings.channel_id, channel_url=settings.channel_url))
-    dp.callback_query.middleware(SubscriptionMiddleware(channel_id=settings.channel_id, channel_url=settings.channel_url))
+    dp.message.middleware(
+        SubscriptionMiddleware(channel_id=settings.channel_id, channel_url=settings.channel_url)
+    )
+    dp.callback_query.middleware(
+        SubscriptionMiddleware(channel_id=settings.channel_id, channel_url=settings.channel_url)
+    )
 
     bot = Bot(token=settings.bot_token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 

@@ -11,10 +11,10 @@ class SubscriptionMiddleware(BaseMiddleware):
         self.channel_url = channel_url
 
     async def __call__(
-            self,
-            handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
-            event: TelegramObject,
-            data: dict[str, Any],
+        self,
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
+        event: TelegramObject,
+        data: dict[str, Any],
     ) -> Any:
         user: User | None = data.get("event_from_user")
 
@@ -27,11 +27,8 @@ class SubscriptionMiddleware(BaseMiddleware):
             member = await bot.get_chat_member(chat_id=self.channel_id, user_id=user.id)
 
             if member.status in (ChatMemberStatus.LEFT, ChatMemberStatus.KICKED):
-                    await event.answer(
-                        "Need to subscribe channel\n"
-                        f"{self.channel_url}"
-                    )
-                    return None
+                await event.answer(f"Need to subscribe channel\n{self.channel_url}")
+                return None
         except Exception:
             return await handler(event, data)
 
