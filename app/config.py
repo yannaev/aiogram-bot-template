@@ -4,7 +4,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     bot_token: str
+    bot_url:str
     admin_ids: list[int]
+    channel_id: str
+    channel_url: str
 
     db_host: str
     db_port: int
