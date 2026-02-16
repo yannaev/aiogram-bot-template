@@ -5,8 +5,10 @@ class AppException(Exception):
         self.message = message or self.message
         super().__init__(self.message)
 
+
 class ObjectAlreadyExistsException(AppException):
     message = "Объект уже существует"
+
 
 class ObjectNotFoundException(AppException):
     message = "Объект не найден"
