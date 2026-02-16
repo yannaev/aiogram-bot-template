@@ -1,8 +1,9 @@
 from datetime import datetime
-from pydantic import BaseModel
+
+from app.schemas.base import BaseSchema
 
 
-class UserCreate(BaseModel):
+class UserCreate(BaseSchema):
     telegram_id: int
 
 class User(UserCreate):
