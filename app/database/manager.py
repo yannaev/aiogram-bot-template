@@ -1,3 +1,6 @@
+from app.repositories.user import UserRepository
+
+
 class DBManager:
     def __init__(self, session_factory):
         self.session_factory = session_factory
@@ -5,7 +8,7 @@ class DBManager:
     async def __aenter__(self):
         self.session = self.session_factory()
 
-        # self.users = UsersRepository(self.session)
+        self.user = UserRepository(self.session)
 
         return self
 
