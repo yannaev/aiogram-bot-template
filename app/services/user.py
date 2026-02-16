@@ -4,7 +4,7 @@ from app.services.base import BaseService
 
 
 class UserService(BaseService):
-    async def register_user(self, telegram_id: int) -> User:
+    async def register(self, telegram_id: int) -> User:
         user_schema = UserCreate(telegram_id=telegram_id)
 
         try:
