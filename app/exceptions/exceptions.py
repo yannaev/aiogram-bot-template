@@ -7,8 +7,16 @@ class AppException(Exception):
 
 
 class ObjectAlreadyExistsException(AppException):
-    message = "Объект уже существует"
+    message = "Object already exists"
 
 
 class ObjectNotFoundException(AppException):
-    message = "Объект не найден"
+    message = "Object not found"
+
+
+class MultipleObjectsFoundException(AppException):
+    message = "Multiple objects found"
+
+
+class ObjectInUseException(AppException):
+    message = "Object in use"
