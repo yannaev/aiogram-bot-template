@@ -4,21 +4,21 @@ from app.services.base import BaseService
 
 
 class UserService(BaseService):
-    async def get_or_create(self, telegram_id: int, referrer_id: int | None = None) -> UserDTO:
+    async def get_or_create(self, telegram_id: int, referrer_telegram_id: int | None = None) -> UserDTO:
         user = await self.db.user.get_one_or_none(telegram_id=telegram_id)
 
         if user:
             return user
 
-        if referrer_id:
-            if referrer_id == telegram_id:
-                referrer_id = None
+        if referrer_telegram_id:
+            if referrer_telegram_id == telegram_id:
+                referrer_telegram_id = None
             else:
-                referrer = await self.db.user.get_one_or_none(telegram_id=referrer_id)
+                referrer = await self.db.user.get_one_or_none(telegram_id=referrer_telegram_id)
                 if referrer is None:
-                    referrer_id = None
+                    referrer_telegram_id = None
 
-        user_schema = UserCreateDTO(telegram_id=telegram_id, referrer_telegram_id=referrer_id)
+        user_schema = UserCreateDTO(telegram_id=telegram_id, referrer_telegram_id=referrer_telegram_id)
 
         try:
             user = await self.db.user.create(data=user_schema)
