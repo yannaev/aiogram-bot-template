@@ -1,4 +1,4 @@
-from app.models.user import UserOrm
+from app.models.user import UserORM
 
 
-__all__ = ["UserOrm"]
+__all__ = ["UserORM"]
