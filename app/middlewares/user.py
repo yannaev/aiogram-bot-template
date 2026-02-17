@@ -19,7 +19,15 @@ class UserMiddleware(BaseMiddleware):
         if tg_user is None or db is None:
             return await handler(event, data)
 
-        user: UserDTO = await UserService(db).get_or_create(telegram_id=tg_user.id)
+        referrer_telegram_id: int | None = None
+
+        if event.message and event.message.text and event.message.text.startswith("/start ") and len(event.message.text) > 7:
+            try:
+                referrer_telegram_id = int(event.message.text.split()[1])
+            except (IndexError, ValueError):
+                pass
+
+        user: UserDTO = await UserService(db).get_or_create(telegram_id=tg_user.id, referrer_telegram_id=referrer_telegram_id)
 
         data["user"] = user
 
