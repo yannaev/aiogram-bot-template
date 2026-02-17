@@ -4,6 +4,7 @@ from aiogram.types import TelegramObject, User
 
 from app.schemas.user import UserDTO
 from app.services.user import UserService
+from app.utils.deep_link import DeepLink
 
 
 class UserMiddleware(BaseMiddleware):
@@ -23,7 +24,9 @@ class UserMiddleware(BaseMiddleware):
 
         if event.message and event.message.text and event.message.text.startswith("/start ") and len(event.message.text) > 7:
             try:
-                referrer_telegram_id = int(event.message.text.split()[1])
+                encoded_arg = event.message.text.split()[1]
+                referrer_telegram_id = DeepLink.decode(encoded_arg)
+
             except (IndexError, ValueError):
                 pass
 
