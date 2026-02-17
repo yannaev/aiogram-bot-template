@@ -4,30 +4,29 @@ from app.services.base import BaseService
 
 
 class UserService(BaseService):
-    async def get_or_create(self, telegram_id: int) -> UserDTO:
-        try:
-            user = await self.db.user.get_one(telegram_id=telegram_id)
+    async def get_or_create(self, telegram_id: int, referrer_id: int | None = None) -> UserDTO:
+        user = await self.db.user.get_one_or_none(telegram_id=telegram_id)
 
-        except ObjectNotFoundException:
-            user_schema = UserCreateDTO(telegram_id=telegram_id)
+        if user:
+            return user
 
-            try:
-                user = await self.db.user.create(data=user_schema)
-                await self.db.commit()
+        if referrer_id:
+            if referrer_id == telegram_id:
+                referrer_id = None
+            else:
+                referrer = await self.db.user.get_one_or_none(telegram_id=referrer_id)
+                if referrer is None:
+                    referrer_id = None
 
-            except ObjectAlreadyExistsException:
-                await self.db.session.rollback()
-                user = await self.db.user.get_one(telegram_id=telegram_id)
-
-        return user
-
-    async def create(self, telegram_id: int) -> UserDTO:
-        user_schema = UserCreateDTO(telegram_id=telegram_id)
+        user_schema = UserCreateDTO(telegram_id=telegram_id, referrer_telegram_id=referrer_id)
 
         try:
             user = await self.db.user.create(data=user_schema)
             await self.db.commit()
-            return user
+
         except ObjectAlreadyExistsException:
             await self.db.session.rollback()
-            return await self.db.user.get_one(telegram_id=telegram_id)
+            user = await self.db.user.get_one(telegram_id=telegram_id)
+
+        return user
+
