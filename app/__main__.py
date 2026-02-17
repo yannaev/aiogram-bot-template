@@ -10,6 +10,7 @@ from app.handlers.admin import admin_router
 from app.handlers.start import start_router
 from app.middlewares.database import DBMiddleware
 from app.middlewares.subscription import SubscriptionMiddleware
+from app.middlewares.user import UserMiddleware
 
 
 async def main() -> None:
@@ -18,6 +19,7 @@ async def main() -> None:
     dp.include_routers(admin_router, start_router)
 
     dp.update.middleware(DBMiddleware(session_factory=async_session_maker))
+    dp.update.middleware(UserMiddleware())
 
     subscription_middleware = SubscriptionMiddleware(
         channel_id=settings.channel_id, channel_url=settings.channel_url
