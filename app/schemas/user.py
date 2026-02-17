@@ -3,10 +3,10 @@ from datetime import datetime
 from app.schemas.base import BaseSchema
 
 
-class UserCreate(BaseSchema):
+class UserCreateDTO(BaseSchema):
     telegram_id: int
 
 
-class User(UserCreate):
+class UserDTO(UserCreateDTO):
     id: int
     created_at: datetime
