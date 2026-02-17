@@ -1,4 +1,4 @@
-from app.exceptions.exceptions import ObjectAlreadyExistsException, ObjectNotFoundException
+from app.exceptions.exceptions import ObjectAlreadyExistsException
 from app.schemas.user import UserDTO, UserCreateDTO
 from app.services.base import BaseService
 
@@ -29,4 +29,3 @@ class UserService(BaseService):
             user = await self.db.user.get_one(telegram_id=telegram_id)
 
         return user
-
