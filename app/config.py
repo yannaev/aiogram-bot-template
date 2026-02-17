@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     db_pass: str
     db_name: str
 
+    alphabet: str
+
     @property
     def db_url(self) -> str:
         return str(
