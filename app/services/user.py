@@ -30,6 +30,9 @@ class UserService(BaseService):
 
         return user
 
+    async def get(self, telegram_id: int) -> UserDTO | None:
+        return await self.db.user.get_one_or_none(telegram_id=telegram_id)
+
     async def block(self, telegram_id: int) -> UserDTO | None:
         return await self._update_status(telegram_id, is_blocked=True)
 
