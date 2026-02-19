@@ -1,5 +1,5 @@
 from app.exceptions.exceptions import ObjectAlreadyExistsException
-from app.schemas.user import UserDTO, UserCreateDTO
+from app.schemas.user import UserDTO, UserCreateDTO, UserUpdateDTO
 from app.services.base import BaseService
 
 
@@ -27,5 +27,24 @@ class UserService(BaseService):
         except ObjectAlreadyExistsException:
             await self.db.session.rollback()
             user = await self.db.user.get_one(telegram_id=telegram_id)
+
+        return user
+
+    async def block(self, telegram_id: int) -> UserDTO | None:
+        return await self._update_status(telegram_id, is_blocked=True)
+
+    async def unblock(self, telegram_id: int) -> UserDTO | None:
+        return await self._update_status(telegram_id, is_blocked=False)
+
+    async def _update_status(self, telegram_id: int, is_blocked: bool) -> UserDTO | None:
+        data = UserUpdateDTO(is_blocked=is_blocked)
+
+        user = await self.db.user.update(
+            data=data,
+            telegram_id=telegram_id
+        )
+
+        if user:
+            await self.db.commit()
 
         return user

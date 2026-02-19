@@ -8,6 +8,11 @@ class UserCreateDTO(BaseSchema):
     referrer_telegram_id: int | None = None
 
 
+class UserUpdateDTO(BaseSchema):
+    is_blocked: bool | None = None
+    referrer_telegram_id: int | None = None
+
+
 class UserDTO(UserCreateDTO):
     id: int
     is_blocked: bool
