@@ -32,6 +32,9 @@ class UserMiddleware(BaseMiddleware):
 
         user: UserDTO = await UserService(db).get_or_create(telegram_id=tg_user.id, referrer_telegram_id=referrer_telegram_id)
 
+        if user.is_blocked:
+            return None
+
         data["user"] = user
 
         return await handler(event, data)
