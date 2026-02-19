@@ -22,15 +22,22 @@ class UserMiddleware(BaseMiddleware):
 
         referrer_telegram_id: int | None = None
 
-        if event.message and event.message.text and event.message.text.startswith("/start ") and len(event.message.text) > 7:
+        if (
+            event.message
+            and event.message.text
+            and event.message.text.startswith("/start ")
+            and len(event.message.text) > 7
+        ):
             try:
                 encoded_arg = event.message.text.split()[1]
                 referrer_telegram_id = DeepLink.decode(encoded_arg)
 
-            except (IndexError, ValueError):
+            except IndexError, ValueError:
                 pass
 
-        user: UserDTO = await UserService(db).get_or_create(telegram_id=tg_user.id, referrer_telegram_id=referrer_telegram_id)
+        user: UserDTO = await UserService(db).get_or_create(
+            telegram_id=tg_user.id, referrer_telegram_id=referrer_telegram_id
+        )
 
         if user.is_blocked:
             return None
