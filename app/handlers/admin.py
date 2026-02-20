@@ -80,7 +80,7 @@ async def block_user_state(message: Message, state: FSMContext, db: DBManager) -
 
     if user:
         await message.answer(
-            text=f"Success. User has been blocked.",
+            text="Success. User has been blocked.",
             reply_markup=AdminKeyboards.back_to_menu,
         )
     else:
@@ -110,7 +110,7 @@ async def unblock_user_state(message: Message, state: FSMContext, db: DBManager)
 
     if user:
         await message.answer(
-            text=f"Success. User has been unblocked.",
+            text="Success. User has been unblocked.",
             reply_markup=AdminKeyboards.back_to_menu,
         )
     else:
