@@ -1,0 +1,41 @@
+services:
+  aiogram-db:
+    image: postgres:18-alpine
+    container_name: aiogram-db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - TZ=UTC
+    ports:
+      - '127.0.0.1:5555:5432'
+    volumes:
+      - aiogram-data:/var/lib/postgresql
+    networks:
+      - aiogram-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  aiogram-bot:
+    container_name: aiogram-bot
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - aiogram-network
+    depends_on:
+      aiogram-db:
+        condition: service_healthy
+
+networks:
+  aiogram-network:
+    name: aiogram-network
+
+volumes:
+  aiogram-data:
+    name: aiogram-data
