@@ -9,11 +9,11 @@ class Settings(BaseSettings):
     channel_id: str
     channel_url: str
 
-    db_host: str
-    db_port: int
-    db_user: str
-    db_pass: str
-    db_name: str
+    postgres_host: str
+    postgres_port: int
+    postgres_user: str
+    postgres_password: str
+    postgres_db: str
 
     alphabet: str
 
@@ -22,11 +22,11 @@ class Settings(BaseSettings):
         return str(
             MultiHostUrl.build(
                 scheme="postgresql+asyncpg",
-                username=self.db_user,
-                password=self.db_pass,
-                host=self.db_host,
-                port=self.db_port,
-                path=self.db_name,
+                username=self.postgres_user,
+                password=self.postgres_password,
+                host=self.postgres_host,
+                port=self.postgres_port,
+                path=self.postgres_db,
             )
         )
 
