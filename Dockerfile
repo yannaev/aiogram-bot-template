@@ -13,6 +13,4 @@ RUN uv sync --locked --no-install-project
 
 COPY . .
 
-RUN uv sync --locked
-
 CMD sh -c "uv run alembic upgrade head && exec uv run python -m app"
